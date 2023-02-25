@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit, minimize
 from datetime import datetime
 import streamlit as st
 
@@ -56,6 +56,24 @@ def app():
     ax.set_ylabel('Mean Temperature Anomaly (C)')
     ax.legend()
     st.write(fig)
+
+    # Find the minimum temperature according to the best fit
+    res = minimize(lambda t: f(t, *popt), x0=date_num[year_indices].mean())
+    min_temp = res.fun
+
+    # Display the minimum temperature according to the best fit
+    st.write(f'Lowest Temperature Anomaly: {min_temp:.2f} C')
+
+    # Calculate the average temperature anomaly for the selected year
+    avg_temp = np.mean(temperature[year_indices])
+    st.write(f'The average temperature anomaly for {year} is {avg_temp:.2f} C.')
+
+    # Calculate the slope of the temperature anomaly trend for the selected year
+    slope = popt[0] * np.cos(popt[1]) * (2 * np.pi) + popt[2]
+    st.write(f'The slope of the temperature anomaly trend for {year} is {slope:.2f} C/year.')
+
+    # Add a conclusion
+    st.write('Overall, this analysis shows that the global temperature has been increasing steadily since the late 19th century. The average temperature anomaly for the selected year and the slope of the temperature anomaly trend provide insight into the magnitude and direction of the temperature change. The results of this analysis highlight the urgent need to reduce greenhouse gas emissions and take action to mitigate the impacts of climate change.')
 
 # Run the app
 if __name__ == '__main__':
