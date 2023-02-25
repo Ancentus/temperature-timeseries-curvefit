@@ -20,7 +20,7 @@ def f(t, a, b, c):
 # Define the Streamlit app
 def app():
     # Set the title of the app
-    st.title('Temperature Data Analysis')
+    st.title('Global Temperature Data Analysis')
 
     # Load the data from the CSV file
     date, temperature, date_num = load_data('monthly_csv.csv')
