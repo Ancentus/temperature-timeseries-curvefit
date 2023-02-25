@@ -17,7 +17,7 @@ You can install these libraries using the following command:
 
 ## Usage
 
-To run the program, navigate to the directory containing the global_temp_analysis.py file and run the following command:
+To run the program, navigate to the directory containing the app.py file and run the following command:
 
     streamlit run app.py
  
