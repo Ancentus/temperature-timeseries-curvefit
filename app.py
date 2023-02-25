@@ -12,9 +12,9 @@ date, temperature = np.loadtxt('monthly_csv.csv', delimiter=',', skiprows=1,
 # Convert date strings to numerical values representing days since the first date
 date_num = np.array([(d - date[0]).days for d in date])
 
-# Define the function f(t) = a*cos(2*pi*t + b) + c
+# Define the function f(t) = a*cost(2*pi*t + b) + c
 def f(t, a, b, c):
-    return a * np.cos(2 * np.pi * t + b) + c
+    return a * np.cos(t) * (2 * np.pi * t + b) + c
 
 # Fit the function to the data using curve_fit
 popt, pcov = curve_fit(f, date_num, temperature)
