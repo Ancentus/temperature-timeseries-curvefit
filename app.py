@@ -34,16 +34,24 @@ def app():
     # Fit the function to the data using curve_fit
     popt, pcov = curve_fit(f, date_num[year_indices], temperature[year_indices])
 
+    # Compute the residuals
+    residuals = temperature[year_indices] - f(date_num[year_indices], *popt)
+    
+    # Compute the standard deviation of the residuals
+    error = np.std(residuals)
+
     # Display the optimized parameters
     st.write('Optimized Parameters:')
-    st.write(f'a = {popt[0]} +/- {pcov[0,0]**.5:.3f}')
-    st.write(f'b = {popt[1]} +/- {pcov[1,1]**.5:.3f}')
-    st.write(f'c = {popt[2]} +/- {pcov[2,2]**.5:.3f}')
+    st.write(f'a = {popt[0]} +/- {pcov[0,0]**.5}')
+    st.write(f'b = {popt[1]} +/- {pcov[1,1]**.5}')
+    st.write(f'c = {popt[2]} +/- {pcov[2,2]**.5}')
+    st.write(f'Error = {error}')
 
     # Plot the data and the best fit model for the selected year
     fig, ax = plt.subplots()
     ax.plot(date[year_indices], temperature[year_indices], 'b.', label='Data')
     ax.plot(date[year_indices], f(date_num[year_indices], *popt), 'r-', label='Best fit model')
+    ax.errorbar(date[year_indices], temperature[year_indices], yerr=error, fmt='none', ecolor='b', capsize=2)
     ax.set_xlabel('Date')
     ax.set_ylabel('Mean Temperature Anomaly (C)')
     ax.legend()
